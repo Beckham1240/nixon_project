@@ -18,17 +18,22 @@ nixonBtn.onclick = ()=> {
 let mcgovernClown = () => {
     alert("Did you mean to vote for Nixon?");
     mcgovernImg.src = "Images/ronald.jpg";
+    mcgovernBtn.removeEventListener('click', mcgovernClown);
+    mcgovernBtn.addEventListener('click', p1);
+    mcgovernBtn.addEventListener('mouseenter', hideMcgovern);
+
 }
 //hides the mcgovern button
 let hideMcgovern = () => {
-    mcgovernBtn.style.visibility = "hidden";
+    mcgovernBtn.style.opacity = "0";
+    mcgovernCard.addEventListener('mouseout', replaceMcgovern);
 }
 //makes the mcgovern button visible 
 let replaceMcgovern = () => {
-    mcgovernBtn.style.visibility = "visible";
+    mcgovernBtn.style.opacity = "1";
 }
 //pops up alert when right click
-let voteNixon = () => {
+function voteNixon() {
     alert("You better vote Nixon!");
 }
 //makes cursor into a clown when hovering mcgovern card
@@ -39,20 +44,58 @@ let clownCursor = () => {
 let follow = (event) => {
     let trollFace = document.createElement("img");
     trollFace.src = "Images/trollface.png";
-    let newX = 0;
-    let newY = 0;
+    document.getElementById("trollPic").appendChild(trollFace);
 
-    newX = event.clientX - 90;
-    newY = event.clientY - 74;
+    let newX = event.clientX - 90;
+    let newY = event.clientY - 74;
     trollFace.style.position = "fixed";
     trollFace.style.left = `${newX}px`;
     trollFace.style.top = `${newY}px`;
     trollFace.style.index = 1;
 
-    trollFace.addEventListener('click', spamLebron);
+    trollFace.addEventListener('click', ()=> {
+        window.removeEventListener('mousemove', follow);
+        var voteCheck = confirm("Have you finally given in yet?");
+        if(voteCheck == true){
+            alert("Good choice");
+            voteNixon();
+        } else{
+            alert("Good Luck");
+            console.log("trigger");
+            spamLebron();
+        }
+    });
 }
 //spam lebron video
-let spamLebron = ()=> {}
+function spamLebron() {
+    for(var i=0; i < 25; i++){
+        // creates the video
+        var vid = document.createElement('video');
+        var source = document.createElement('source');
+        vid.width = "300px";
+        vid.height = "250px";
+        vid.controls = "false";
+        vid.autoplay = "true";
+        vid.loop = "true";
+        source.src = "video/lebronJames.mp4";
+        source.type = "video/mp4";
+        vid.appendChild(source);
+        document.getElementById("lebronTrap").appendChild(vid);
+        // creates line breaks
+        var br = document.createElement('br');
+        document.getElementById("lebronTrap").appendChild(br);
+    }
+    var confirmBtn = document.createElement('button');
+    confirmBtn.innerHTML = "Vote Mcgovern";
+    document.getElementById("lebronTrap").appendChild(confirmBtn);
+    confirmBtn.onlcick = window.location.href= "endVote.html";
+    
+}
+let p1 = () => {
+    console.log(`trigger`);
+    window.addEventListener('mousemove', follow);
+    mcgovernBtn.removeEventListener('click', p1);
+}
 
 //context menu right click to pop up alert
 window.addEventListener('contextmenu', voteNixon);
@@ -60,18 +103,6 @@ window.addEventListener('contextmenu', voteNixon);
 mcgovernCard.addEventListener('mousemove', clownCursor);
 //turns mcgovern pic into clown on click
 mcgovernBtn.addEventListener('click', mcgovernClown);
-
-mcgovernBtn.addEventListener('click', ()=> {
-    mcgovernBtn.removeEventListener('click', mcgovernClown);
-    mcgovernBtn.addEventListener('mouseover', hideMcgovern);
-    mcgovernBtn.addEventListener('mouseleave', replaceMcgovern);
-});
-
-mcgovernBtn.addEventListener('click', ()=> {
-    mcgovernBtn.removeEventListener('mouseover', hideMcgovern);
-    mcgovernBtn.removeEventListener('mouseleave', replaceMcgovern);
-    window.addEventListener('mousemove', follow);
-})
 
 
 //changes the cursor of the mouse when mouse hovers over mcgovern btn
