@@ -5,23 +5,23 @@ var nixonBtn = document.getElementById("nixonBtn");
 var mcgovernBtn = document.getElementById("mcgovernBtn");
 var mcgovernImg = document.getElementById("mcgovernImg");
 var mcgovernCard = document.getElementById("mcgovernCard");
-//spits out a random integer using the max as the parameter
-function getRandomInt(max) {
-    return Math.floor(Math.random() * max);
-}
 
-//displays alert when voting for nixon
-nixonBtn.onclick = ()=> {
+// pops up alert that says voted for nixon
+let voteNixon = ()=> {
     this.alert("You have voted for Nixon!");
 }
-//onlick event that gives alert and changes the picture of mcgovern
+//onlick event that gives alert and changes the picture of mcgovern and asks a question that either votes for nixon or activates the hide and replace mcgovern 
+//functions and starts the p1 function
 let mcgovernClown = () => {
-    alert("Did you mean to vote for Nixon?");
-    mcgovernImg.src = "Images/ronald.jpg";
-    mcgovernBtn.removeEventListener('click', mcgovernClown);
-    mcgovernBtn.addEventListener('click', p1);
-    mcgovernBtn.addEventListener('mouseenter', hideMcgovern);
-
+    let question = confirm("Did you mean to vote for Nixon?");
+    if(question == true){
+        alert("You have voted for Nixon!");
+    } else{
+        mcgovernImg.src = "Images/ronald.jpg";
+        mcgovernBtn.removeEventListener('click', mcgovernClown);
+        mcgovernBtn.addEventListener('click', p1);
+        mcgovernBtn.addEventListener('mouseenter', hideMcgovern);
+    }
 }
 //hides the mcgovern button
 let hideMcgovern = () => {
@@ -33,14 +33,14 @@ let replaceMcgovern = () => {
     mcgovernBtn.style.opacity = "1";
 }
 //pops up alert when right click
-function voteNixon() {
+let maybeNixon = ()=> {
     alert("You better vote Nixon!");
 }
 //makes cursor into a clown when hovering mcgovern card
 let clownCursor = () => {
     mcgovernCard.style.cursor = "url(Images/clown-cursor.png) 0 0, pointer";
 }
-//
+//creates a trail of troll faces that follow the user's mouse
 let follow = (event) => {
     let trollFace = document.createElement("img");
     trollFace.src = "Images/trollface.png";
@@ -61,44 +61,39 @@ let follow = (event) => {
             voteNixon();
         } else{
             alert("Good Luck");
-            console.log("trigger");
-            spamLebron();
+            spamKanye();
         }
     });
 }
-//spam lebron video
-function spamLebron() {
+//spams a column of kanyeis jesus pictures
+function spamKanye() {
     for(var i=0; i < 25; i++){
         // creates the video
-        var vid = document.createElement('video');
-        var source = document.createElement('source');
-        vid.width = "300px";
-        vid.height = "250px";
-        vid.controls = "false";
-        vid.autoplay = "true";
-        vid.loop = "true";
-        source.src = "video/lebronJames.mp4";
-        source.type = "video/mp4";
-        vid.appendChild(source);
-        document.getElementById("lebronTrap").appendChild(vid);
+        var img = document.createElement('img');
+        img.src = "Images/kanye.jpg";
+        document.getElementById("kanyeTrap").appendChild(img);
         // creates line breaks
         var br = document.createElement('br');
-        document.getElementById("lebronTrap").appendChild(br);
+        document.getElementById("kanyeTrap").appendChild(br);
     }
     var confirmBtn = document.createElement('button');
     confirmBtn.innerHTML = "Vote Mcgovern";
-    document.getElementById("lebronTrap").appendChild(confirmBtn);
-    confirmBtn.onlcick = window.location.href= "endVote.html";
+    document.getElementById("kanyeTrap").appendChild(confirmBtn);
+    confirmBtn.addEventListener('click', ()=> {
+        alert("You voted for Mcgovern");
+    })
     
 }
+// starts the follow function and removes the p1 function itself
 let p1 = () => {
-    console.log(`trigger`);
     window.addEventListener('mousemove', follow);
     mcgovernBtn.removeEventListener('click', p1);
 }
 
+// when nixon button clicked it votes for Nixon
+nixonBtn.addEventListener('click', voteNixon);
 //context menu right click to pop up alert
-window.addEventListener('contextmenu', voteNixon);
+window.addEventListener('contextmenu', maybeNixon);
 //runs clown cursor when hovering mcgovern card
 mcgovernCard.addEventListener('mousemove', clownCursor);
 //turns mcgovern pic into clown on click
